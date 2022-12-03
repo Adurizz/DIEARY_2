@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "56509879434",
+    "project_id": "dieary",
+    "storage_bucket": "dieary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:56509879434:android:704bb760532313d02a4973",
+        "android_client_info": {
+          "package_name": "com.example.practice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "56509879434-4q5nfjv6hmaupg78rlh4o6b4c31ea984.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.practice",
+            "certificate_hash": "92a95ec16855e6935fc5263bfe1fc762ae2c4c4d"
+          }
+        },
+        {
+          "client_id": "56509879434-70l7o42olkpkmipg5k700ge7ess3rucl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsh92xlY7_9Fr5CLF8BJL-LHIfwjz6NEE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "56509879434-70l7o42olkpkmipg5k700ge7ess3rucl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
