@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("ITM", "second check")
         Log.d("ITM","Main in")
 
+        print(2)
         // UI값 생성
         calendarView=findViewById(R.id.calendarView)
         title=findViewById(R.id.title)
