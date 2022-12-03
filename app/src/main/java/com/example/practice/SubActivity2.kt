@@ -1,6 +1,8 @@
 package com.example.practice
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +10,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -23,6 +26,7 @@ class SubActivity2 : AppCompatActivity() {
     lateinit var diaryTextView: TextView
     lateinit var diaryContent: TextView
     lateinit var contextEditText: EditText
+    lateinit var feelingimage : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +41,7 @@ class SubActivity2 : AppCompatActivity() {
         diaryContent=findViewById(R.id.diaryContent)
         //title=findViewById(R.id.title)
         contextEditText=findViewById(R.id.contextEditText)
+        feelingimage=findViewById(R.id.feelingImage)
 
         diaryTextView.visibility = View.VISIBLE // 2022/11/23
         saveBtn.visibility = View.VISIBLE
@@ -46,21 +51,38 @@ class SubActivity2 : AppCompatActivity() {
         deleteBtn.visibility = View.INVISIBLE
 
         diaryTextView.text = intent.getStringExtra("date")
+        Log.d("ITM", "${intent.getStringExtra("date")}")
         var arr = diaryTextView.text.split(" / ")
         var year = arr[0].toInt()
         var month = arr[1].toInt()
         var dayOfMonth = arr[2].toInt()
         checkDay(year, month, dayOfMonth, userID)
 
+        var key = arr[0]+arr[1]+arr[2]
+        Log.d("ITM", key)
+
+
+        //feeling image 받아오기
+        var imgSource = intent.getStringExtra("image")?.toInt()
+        if (imgSource != null) {
+            feelingimage.setImageResource(imgSource)
+        }
+
         saveBtn.setOnClickListener {
             saveDiary(fname)
             contextEditText.visibility = View.INVISIBLE
             saveBtn.visibility = View.INVISIBLE
-            updateBtn.visibility = View.VISIBLE
-            deleteBtn.visibility = View.VISIBLE
+            //updateBtn.visibility = View.VISIBLE
+            //deleteBtn.visibility = View.VISIBLE
             str = contextEditText.text.toString()
             diaryContent.text = str
             diaryContent.visibility = View.VISIBLE
+            //main에서 컨텐츠 볼 수 있게 하기
+            val returnIntent = Intent(this, ViewActivity::class.java)
+            returnIntent.putExtra("textDiary", str)
+            returnIntent.putExtra("feelingImgSrc",intent.getStringExtra("image"))
+            startActivity(returnIntent)
+            finish()
         }
 
     }

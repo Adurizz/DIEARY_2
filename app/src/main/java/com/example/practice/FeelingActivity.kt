@@ -1,16 +1,23 @@
 package com.example.practice
 
 import android.R
+import android.app.Activity
 import android.content.Intent
+import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import com.example.practice.databinding.ActivityFeelingBinding
 import com.example.practice.databinding.ActivityMainBinding
+import kotlin.properties.Delegates
 
 class FeelingActivity : AppCompatActivity() {
+    lateinit var image : String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityFeelingBinding.inflate(layoutInflater)
@@ -28,23 +35,23 @@ class FeelingActivity : AppCompatActivity() {
                 when (p2) {
                     0 -> {
                         binding.imageView.setImageResource(R.drawable.btn_minus)
-                        var image = R.drawable.btn_minus
+                        image = R.drawable.btn_minus.toString()
                     }
                     1 -> {
                         binding.imageView.setImageResource(R.drawable.btn_plus)
-                        var image = R.drawable.btn_plus
+                        image = R.drawable.btn_plus.toString()
                     }
                     2 -> {
                         binding.imageView.setImageResource(R.drawable.btn_star)
-                        var image = R.drawable.btn_star
+                        image = R.drawable.btn_star.toString()
                     }
                     3 -> {
                         binding.imageView.setImageResource(R.drawable.btn_dialog)
-                        var image = R.drawable.btn_dialog
+                        image = R.drawable.btn_dialog.toString()
                     }
                     4 -> {
                         binding.imageView.setImageResource(R.drawable.btn_dropdown)
-                        var image = R.drawable.btn_dropdown
+                        image = R.drawable.btn_dropdown.toString()
                     }
                 }
             }
@@ -54,7 +61,11 @@ class FeelingActivity : AppCompatActivity() {
         binding.goBtn2.setOnClickListener {
             val intent = Intent(this, SubActivity2::class.java)
             intent.putExtra("date", date)
+            Log.d("ITM", "$image is passed")
+            //image source pass
+            intent.putExtra("image", image)
             startActivity(intent)
+            finish()
         }
     }
 }
