@@ -1,6 +1,7 @@
 package com.example.practice
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -29,6 +30,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var contextEditText: EditText
     lateinit var goBtn: Button  // add
     lateinit var date: String   // add
+    lateinit var viewBtn: Button
+    lateinit var locBtn: Button
+
+    val SUBACTIVITY_REQUEST_CODE = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +45,8 @@ class MainActivity : AppCompatActivity() {
         calendarView=findViewById(R.id.calendarView)
         title=findViewById(R.id.title)
         goBtn=findViewById(R.id.goBtn)  // add
+        viewBtn=findViewById(R.id.viewBtn)
+        locBtn = findViewById(R.id.locBtn)
 
 
         title.text = "If I Dieary"
@@ -57,5 +64,16 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        viewBtn.setOnClickListener {
+            Log.d("ITM", "viewBtn in")
+            val intent = Intent(this, ViewActivity::class.java)
+            startActivity(intent)
+        }
+
+        locBtn.setOnClickListener {
+            Log.d("ITM", "move to location activity")
+            val intent = Intent(this, LocationActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
