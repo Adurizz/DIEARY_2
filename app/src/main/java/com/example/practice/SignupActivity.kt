@@ -3,21 +3,24 @@ package com.example.practice
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.example.practice.databinding.ActivityLocationBinding
+import com.example.practice.databinding.ActivitySignupBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 class SignupActivity : AppCompatActivity() {
+    val binding by lazy { ActivitySignupBinding.inflate(layoutInflater)}
     private var auth : FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
-        setContentView(R.layout.activity_signup)
+        setContentView(binding.root)
 
         //계정 생성 버튼
-        signup_okButton.setOnClickListener {
-            createAccount(signupID.text.toString(),signupPassword.text.toString())
+        binding.signupOkButton.setOnClickListener {
+            createAccount(binding.signupID.text.toString(),binding.signupPassword.text.toString())
         }
     }
 
