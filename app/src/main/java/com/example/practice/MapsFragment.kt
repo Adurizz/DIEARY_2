@@ -19,10 +19,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
 class MapsFragment : Fragment() {
-//    interface OnLocationPassListener {
-//        fun onLocationPass(lat : String?, lng : String?)
-//    }
-//    lateinit var dataPassListener: OnLocationPassListener
+    interface OnLocationPassListener {
+        fun onLocationPass(lat : String, lng : String)
+    }
+    lateinit var dataPassListener: OnLocationPassListener
 
     private val callback = OnMapReadyCallback { googleMap ->
         val point = LatLng(37.0, 126.0)
@@ -32,8 +32,14 @@ class MapsFragment : Fragment() {
             var location = LatLng(latlng.latitude, latlng.longitude)
             googleMap?.addMarker(MarkerOptions().position(location).title("Here?"))
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(location))
-//            dataPassListener.onLocationPass(location.latitude.toString(), location.longitude.toString())
+            dataPassListener.onLocationPass(location.latitude.toString(), location.longitude.toString())
+//            Log.d("ITM",location.longitude.toString())
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        dataPassListener = context as OnLocationPassListener
     }
 
     override fun onCreateView(

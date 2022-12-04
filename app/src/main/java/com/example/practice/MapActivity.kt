@@ -2,10 +2,11 @@ package com.example.practice
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.practice.databinding.ActivityLocationBinding
 import com.example.practice.databinding.ActivityMapBinding
 
-class MapActivity : AppCompatActivity() {
+class MapActivity : AppCompatActivity(), MapsFragment.OnLocationPassListener {
     val binding by lazy { ActivityMapBinding.inflate(layoutInflater)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,9 +21,11 @@ class MapActivity : AppCompatActivity() {
         transaction.add(binding.mapFrame.id, mapFrangment)
         transaction.commit()
     }
-//    , MapsFragment.OnLocationPassListener
-//    override fun onLocationPass(lat: String?, lng: String?) {
-//        binding.latitudeText.text = lat
-//        binding.latitudeText.text = lng
-//    }
+
+    override fun onLocationPass(lat: String, lng: String) {
+        binding.latitudeText.text = lat
+        binding.longtitudeText.text = lng
+        Log.d("ITM", lat)
+        Log.d("ITM", lng)
+    }
 }
