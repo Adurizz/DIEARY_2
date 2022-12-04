@@ -49,8 +49,6 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.title.text = "If I Dieary"
-
-
         // 로그아웃
         binding.logoutbutton.setOnClickListener {
             // 로그인 화면으로
@@ -59,7 +57,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             auth?.signOut()
         }
-
 
         binding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             Log.d("ITM","calendar in: $view, $year, $month, $dayOfMonth")

@@ -13,6 +13,17 @@ class LocationActivity : AppCompatActivity() {
     val binding by lazy { ActivityLocationBinding.inflate(layoutInflater)}
     lateinit var getResult : ActivityResultLauncher<Intent>
 
+    init {
+        instance = this
+    }
+
+    companion object {
+        private var instance:LocationActivity?=null
+        fun getInstance():LocationActivity? {
+            return instance
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -31,11 +42,19 @@ class LocationActivity : AppCompatActivity() {
                 val lat = it.data?.getStringExtra("latitude")
                 val long = it.data?.getStringExtra("longitude")
                 if (title != null && date!= null && cont!=null && lat!=null && long!=null) {
-                    Log.d("ITM", "$title, $date, $cont")
-                    locations.add(LocInfo(title,date, cont))
+                    Log.d("ITM", "$title, $date, $cont, $lat, $long")
+                    locations.add(LocInfo(title,date, cont,lat.toString(), long.toString()))
                     locAdapter.notifyDataSetChanged()
                 }
             }
+        }
+
+        fun showMap(lat : Float, lng : Float) {
+            val intent = Intent(this, SavedLocViewActivity::class.java).apply {
+                putExtra("lat", lat)
+                putExtra("lng", lng)
+            }
+            startActivity(intent)
         }
 
         binding.mapBtn.setOnClickListener {

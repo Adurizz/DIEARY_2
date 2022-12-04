@@ -1,5 +1,7 @@
 package com.example.practice
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +27,15 @@ class LocAdapter(val locations : MutableList<LocInfo>): RecyclerView.Adapter<Loc
             binding.locName.text = locInfos.locName
             binding.date.text = locInfos.date
             binding.comment.text = locInfos.comments
+
+            itemView.setOnClickListener {
+                Intent(LocationActivity.getInstance(), SavedLocViewActivity::class.java).apply {
+                    putExtra("lat", locInfos.lat)
+                    putExtra("lng", locInfos.lng)
+                    putExtra("name", locInfos.locName)
+                    Log.d("ITM", "Extras : ${locInfos.lat}, ${locInfos.lng}")
+                }.run { LocationActivity.getInstance()?.startActivity(this) }
+            }
         }
     }
 }

@@ -28,18 +28,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/locName" />
 
-    <Button
-        android:id="@+id/seeBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="See"
-        app:layout_constraintBottom_toBottomOf="@+id/date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/date"
-        app:layout_constraintVertical_bias="0.551" />
-
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
@@ -47,8 +35,8 @@
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/locName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.626"
+        app:layout_constraintHorizontal_bias="0.912"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/locName"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
