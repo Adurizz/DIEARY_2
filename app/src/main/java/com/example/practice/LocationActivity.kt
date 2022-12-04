@@ -14,7 +14,7 @@ class LocationActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.mapBtn.setOnClickListener {
-            val intent = Intent(this, MapsActivity::class.java)
+            val intent = Intent(this, MapActivity::class.java)
             startActivity(intent)
         }
 
