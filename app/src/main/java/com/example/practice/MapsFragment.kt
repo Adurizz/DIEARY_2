@@ -3,18 +3,17 @@ package com.example.practice
 import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.Fragment
-
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
@@ -25,8 +24,13 @@ class MapsFragment : Fragment() {
     lateinit var dataPassListener: OnLocationPassListener
 
     private val callback = OnMapReadyCallback { googleMap ->
-        val point = LatLng(37.0, 126.0)
+        val point = LatLng(37.5518770187, 126.99262798)
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(point))
+        val cameraPosition = CameraPosition.Builder()
+            .target(point)
+            .zoom(10.0f)
+            .build()
+        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         googleMap?.setOnMapClickListener { latlng ->
             googleMap.clear()
             var location = LatLng(latlng.latitude, latlng.longitude)

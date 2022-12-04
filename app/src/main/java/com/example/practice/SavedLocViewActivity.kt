@@ -11,6 +11,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.practice.databinding.ActivitySavedLocViewBinding
+import com.google.android.gms.maps.model.CameraPosition
 
 class SavedLocViewActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -61,5 +62,10 @@ class SavedLocViewActivity : AppCompatActivity(), OnMapReadyCallback {
 
         mMap.addMarker(MarkerOptions().position(point).title(name))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(point))
+        val cameraPosition = CameraPosition.Builder()
+            .target(point)
+            .zoom(17.0f)
+            .build()
+        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
 }
