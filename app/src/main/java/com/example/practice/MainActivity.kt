@@ -9,18 +9,23 @@ import java.io.FileOutputStream
 import android.view.View
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import com.example.practice.databinding.ActivityMainBinding
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     val binding by lazy { ActivityMainBinding.inflate(layoutInflater)}
     private var auth : FirebaseAuth? = null
 
@@ -39,6 +44,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var date: String   // add
     lateinit var viewBtn: Button
     lateinit var locBtn: Button
+    lateinit var navigationView: NavigationView
+    lateinit var drawerLayout: DrawerLayout
 
     val SUBACTIVITY_REQUEST_CODE = 100
 
@@ -47,6 +54,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         auth = Firebase.auth
 
+        //드로어
+        val toolbar : Toolbar = findViewById(R.id.toolbar)
+//        setSupportActionBar(toolbar)
+//
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        supportActionBar?.setHomeAsUpIndicator(R.drawable.navi_menu)
+//        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        drawerLayout = binding.drawerLayout
+        navigationView = binding.navView
+        navigationView.setNavigationItemSelectedListener(this)
 
         binding.title.text = "If I Dieary"
         // 로그아웃
@@ -77,10 +95,36 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.locBtn.setOnClickListener {
-            Log.d("ITM", "move to location activity")
-            val intent = Intent(this, LocationActivity::class.java)
-            startActivity(intent)
+        binding.menuBtn.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item!!.itemId){
+            android.R.id.home->{
+                drawerLayout.openDrawer(GravityCompat.START)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_search-> {
+                //search activity 여기에 연결
+                Log.d("ITM", "search")
+            }
+            R.id.menu_contents-> {
+                //content activity 여기에 연결
+                Log.d("ITM", "content")
+            }
+            R.id.menu_locations-> {
+                val intent = Intent(this, LocationActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        return false
     }
 }
