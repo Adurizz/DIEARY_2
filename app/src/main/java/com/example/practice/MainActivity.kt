@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     var now = LocalDate.now().toString()
     var arr = now.split("-")
-    var date = String.format("%d / %d / %d", arr[0], arr[1], arr[2])
+    var date = String.format("%s / %s / %s", arr[0], arr[1], arr[2])
     lateinit var fname: String
     lateinit var str: String
     lateinit var calendarView: CalendarView
@@ -74,20 +74,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         }
 
-        binding.goBtn.setOnClickListener {
-            try{
-                if(date==null)
-                    date = LocalDate.now().toString()
-                Log.d("ITM","gobtn in")
-                val intent = Intent(this, FeelingActivity::class.java)
-                intent.putExtra("date", date)
-                startActivity(intent)
-
-            }
-            catch (e : Exception){
-                Log.d("ITM",date)
-            }
-
+        binding.goBtn.setOnClickListener{
+            Log.d("ITM","gobtn in")
+            val intent = Intent(this, FeelingActivity::class.java)
+            intent.putExtra("date", date)
+            startActivity(intent)
         }
 
         binding.viewBtn.setOnClickListener {
