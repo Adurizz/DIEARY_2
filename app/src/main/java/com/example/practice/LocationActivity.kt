@@ -38,24 +38,25 @@ class LocationActivity : AppCompatActivity() {
         binding.locRecView.adapter = locAdapter
         binding.locRecView.layoutManager =LinearLayoutManager(this)
 
-        getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == RESULT_OK) {
-                val title = it.data?.getStringExtra("title")
-                val date = it.data?.getStringExtra("date")
-                val cont = it.data?.getStringExtra("content")
-                val lat = it.data?.getStringExtra("latitude")
-                val long = it.data?.getStringExtra("longitude")
-                if (title != null && date!= null && cont!=null && lat!=null && long!=null) {
-                    Log.d("ITM", "$title, $date, $cont, $lat, $long")
-                    locations.add(LocInfo(title,date, cont,lat.toString(), long.toString()))
-                    locAdapter.notifyDataSetChanged()
-                }
-            }
-        }
+//        getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+//            if (it.resultCode == RESULT_OK) {
+//                val title = it.data?.getStringExtra("title")
+//                val date = it.data?.getStringExtra("date")
+//                val cont = it.data?.getStringExtra("content")
+//                val lat = it.data?.getStringExtra("latitude")
+//                val long = it.data?.getStringExtra("longitude")
+//                if (title != null && date!= null && cont!=null && lat!=null && long!=null) {
+//                    Log.d("ITM", "$title, $date, $cont, $lat, $long")
+//                    locations.add(LocInfo(title,date, cont,lat.toString(), long.toString()))
+//                    locAdapter.notifyDataSetChanged()
+//                }
+//            }
+//        }
 
         binding.mapBtn.setOnClickListener {
             val intent = Intent(this, MapActivity::class.java)
-            getResult.launch(intent)
+//            getResult.launch(intent)
+            startActivity(intent)
         }
     }
 }

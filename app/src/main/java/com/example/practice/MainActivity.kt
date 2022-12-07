@@ -50,6 +50,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var locBtn: Button
     lateinit var navigationView: NavigationView
     lateinit var drawerLayout: DrawerLayout
+    companion object {
+        lateinit var userId : String
+    }
+
+
 
     val SUBACTIVITY_REQUEST_CODE = 100
 
@@ -59,7 +64,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(binding.root)
         auth = Firebase.auth
 
-//        Log.d("ITM", "${auth?.currentUser?.uid}")
+        userId = auth?.currentUser?.uid.toString()
+
+        Log.d("ITM", "UID : ${MainActivity.userId} logged in.")
+        //드로어
+        val toolbar : Toolbar = findViewById(R.id.toolbar)
+//        setSupportActionBar(toolbar)
+//
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        supportActionBar?.setHomeAsUpIndicator(R.drawable.navi_menu)
+//        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         drawerLayout = binding.drawerLayout
         navigationView = binding.navView
@@ -71,10 +85,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Log.d("ITM","calendar in: $view, $year, $month, $dayOfMonth")
             date = String.format("%d/%d/%d", year, month + 1, dayOfMonth)
             Log.d("ITM","calendar in: date= $date")
-
         }
 
-        binding.goBtn.setOnClickListener{
+        binding.goBtn.setOnClickListener {
             Log.d("ITM","gobtn in")
             val intent = Intent(this, FeelingActivity::class.java)
             intent.putExtra("date", date)
