@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     var now = LocalDate.now().toString()
     var arr = now.split("-")
-    var date = String.format("%s / %s / %s", arr[0], arr[1], arr[2])
+    var date = String.format("%s/%s/%s", arr[0], arr[1], arr[2])
     lateinit var fname: String
     lateinit var str: String
     lateinit var calendarView: CalendarView
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         binding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             Log.d("ITM","calendar in: $view, $year, $month, $dayOfMonth")
-            date = String.format("%d / %d / %d", year, month + 1, dayOfMonth)
+            date = String.format("%d/%d/%d", year, month + 1, dayOfMonth)
             Log.d("ITM","calendar in: date= $date")
 
         }
