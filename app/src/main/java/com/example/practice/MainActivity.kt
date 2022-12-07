@@ -23,13 +23,17 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import java.time.LocalDate
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     val binding by lazy { ActivityMainBinding.inflate(layoutInflater)}
     private var auth : FirebaseAuth? = null
 
-    var userID: String = "userID"
+    var now = LocalDate.now().toString()
+    var arr = now.split("-")
+    var date = String.format("%d / %d / %d", arr[0], arr[1], arr[2])
     lateinit var fname: String
     lateinit var str: String
     lateinit var calendarView: CalendarView
@@ -41,7 +45,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var title:TextView
     lateinit var contextEditText: EditText
     lateinit var goBtn: Button  // add
-    lateinit var date: String   // add
+
     lateinit var viewBtn: Button
     lateinit var locBtn: Button
     lateinit var navigationView: NavigationView
@@ -50,17 +54,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     val SUBACTIVITY_REQUEST_CODE = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("ITM",now)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         auth = Firebase.auth
 
-        //드로어
-        val toolbar : Toolbar = findViewById(R.id.toolbar)
-//        setSupportActionBar(toolbar)
-//
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-//        supportActionBar?.setHomeAsUpIndicator(R.drawable.navi_menu)
-//        supportActionBar?.setDisplayShowTitleEnabled(false)
+//        Log.d("ITM", "${auth?.currentUser?.uid}")
 
         drawerLayout = binding.drawerLayout
         navigationView = binding.navView
@@ -72,13 +71,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Log.d("ITM","calendar in: $view, $year, $month, $dayOfMonth")
             date = String.format("%d / %d / %d", year, month + 1, dayOfMonth)
             Log.d("ITM","calendar in: date= $date")
+
         }
 
         binding.goBtn.setOnClickListener {
-            Log.d("ITM","gobtn in")
-            val intent = Intent(this, FeelingActivity::class.java)
-            intent.putExtra("date", date)
-            startActivity(intent)
+            try{
+                if(date==null)
+                    date = LocalDate.now().toString()
+                Log.d("ITM","gobtn in")
+                val intent = Intent(this, FeelingActivity::class.java)
+                intent.putExtra("date", date)
+                startActivity(intent)
+
+            }
+            catch (e : Exception){
+                Log.d("ITM",date)
+            }
+
         }
 
         binding.viewBtn.setOnClickListener {
