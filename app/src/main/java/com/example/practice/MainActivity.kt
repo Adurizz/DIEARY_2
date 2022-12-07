@@ -67,14 +67,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.setNavigationItemSelectedListener(this)
 
         binding.title.text = "If I Dieary"
-        // 로그아웃
-        binding.logoutbutton.setOnClickListener {
-            // 로그인 화면으로
-            val intent = Intent(this, LoginActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(intent)
-            auth?.signOut()
-        }
 
         binding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             Log.d("ITM","calendar in: $view, $year, $month, $dayOfMonth")
@@ -112,6 +104,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
+            R.id.menu_home-> {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
             R.id.menu_search-> {
                 //search activity 여기에 연결
                 Log.d("ITM", "search")
@@ -123,6 +119,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.menu_locations-> {
                 val intent = Intent(this, LocationActivity::class.java)
                 startActivity(intent)
+            }
+            R.id.menu_logout-> {
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+                auth?.signOut()
             }
         }
         return false

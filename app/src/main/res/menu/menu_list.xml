@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/menu_home"
+        android:title="HOME" />
+    <item
         android:id="@+id/menu_search"
         android:title="SEARCH" />
     <item
@@ -9,4 +12,7 @@
     <item
         android:id="@+id/menu_locations"
         android:title="LOCATIONS" />
+    <item
+        android:id="@+id/menu_logout"
+        android:title="LOGOUT" />
 </menu>
