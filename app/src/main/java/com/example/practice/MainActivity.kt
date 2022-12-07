@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     val SUBACTIVITY_REQUEST_CODE = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("ITM",now)
+        Log.d("ITM",date)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         auth = Firebase.auth
