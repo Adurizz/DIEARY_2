@@ -8,6 +8,8 @@ import android.util.Log
 import android.widget.Toast
 import com.example.practice.databinding.ActivityLocationBinding
 import com.example.practice.databinding.ActivityMapBinding
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class MapActivity : AppCompatActivity(), MapsFragment.OnLocationPassListener {
     val binding by lazy { ActivityMapBinding.inflate(layoutInflater)}
@@ -17,6 +19,7 @@ class MapActivity : AppCompatActivity(), MapsFragment.OnLocationPassListener {
         setContentView(binding.root)
 
         val mapFrangment = MapsFragment()
+        val db = Firebase.firestore
 
         val fManager = supportFragmentManager
         val transaction = fManager.beginTransaction()

@@ -8,6 +8,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.practice.databinding.ActivityLocationBinding
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class LocationActivity : AppCompatActivity() {
     val binding by lazy { ActivityLocationBinding.inflate(layoutInflater)}
@@ -28,6 +30,8 @@ class LocationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val db = Firebase.firestore
+
         var locations = mutableListOf<LocInfo>()
 
         val locAdapter = LocAdapter(locations)
@@ -47,14 +51,6 @@ class LocationActivity : AppCompatActivity() {
                     locAdapter.notifyDataSetChanged()
                 }
             }
-        }
-
-        fun showMap(lat : Float, lng : Float) {
-            val intent = Intent(this, SavedLocViewActivity::class.java).apply {
-                putExtra("lat", lat)
-                putExtra("lng", lng)
-            }
-            startActivity(intent)
         }
 
         binding.mapBtn.setOnClickListener {
