@@ -13,6 +13,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import com.bumptech.glide.Glide
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
@@ -22,6 +23,18 @@ class SubActivity2 : AppCompatActivity() {
     lateinit var saveBtn: Button
     lateinit var diaryTextView: TextView
     lateinit var diaryEditText: EditText
+
+    //upload photo
+    private var activityResult: ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()) {
+        if(it.resultCode== RESULT_OK&&it.data != null) {
+            val uri = it.data!!.data
+
+            Glide.with(this)
+                .load(uri)
+                .into(binding.photoImage)
+        }
+    }//upload photo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +64,13 @@ class SubActivity2 : AppCompatActivity() {
         diaryTextView.text = date
         Log.d("ITM","3")
         Log.d("ITM", "Date is $date")
+
+        binding.galleryBtn.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type="image/*"
+            activityResult.launch(intent)
+        }
+
 
 
         //db에 일기 넣기
