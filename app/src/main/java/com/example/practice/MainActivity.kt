@@ -19,11 +19,17 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.practice.api.BookService
 import com.example.practice.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDate
 import java.util.*
 
@@ -31,7 +37,7 @@ import java.util.*
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     val binding by lazy { ActivityMainBinding.inflate(layoutInflater)}
     private var auth : FirebaseAuth? = null
-
+    private lateinit var bookService: BookService
 //    var now = LocalDate.now().toString()
 //    var arr = now.split("-")
 //    var date = String.format("%s/%s/%s", arr[0], arr[1], arr[2])
@@ -122,6 +128,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             R.id.menu_contents-> {
                 //content activity 여기에 연결
+                val intent = Intent(this, BookActivity::class.java)
+                startActivity(intent)
                 Log.d("ITM", "content")
             }
             R.id.menu_locations-> {
@@ -137,4 +145,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         return false
     }
+
+
+
+    private fun initBookService() {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://book.interpark.com/") // 인터파크 베이스 주소;
+            .addConverterFactory(GsonConverterFactory.create()) // Gson 변환기 사용;
+            .build()
+
+        bookService = retrofit.create(BookService::class.java)
+    }
+
+
 }

@@ -8,12 +8,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.practice.databinding.ActivitySub2Binding
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.time.LocalDate
 
 class SubActivity2 : AppCompatActivity() {
@@ -23,6 +26,7 @@ class SubActivity2 : AppCompatActivity() {
     lateinit var diaryTextView: TextView
     lateinit var diaryEditText: EditText
     lateinit var uri : Uri
+    lateinit var bookBtn: Button
 
     //upload photo
     private var activityResult: ActivityResultLauncher<Intent> = registerForActivityResult(
@@ -48,6 +52,7 @@ class SubActivity2 : AppCompatActivity() {
         saveBtn=binding.saveBtn
         diaryEditText = binding.diaryEditText
 
+
         diaryTextView.visibility = View.VISIBLE // 2022/11/23
         saveBtn.visibility = View.VISIBLE
         diaryEditText.visibility = View.VISIBLE
@@ -60,7 +65,6 @@ class SubActivity2 : AppCompatActivity() {
 
         val db = Firebase.firestore
         Log.d("ITM","2")
-
         //리사이클러뷰에 띄울 리스트 생성
         diaryTextView.text = date
         Log.d("ITM","3")
