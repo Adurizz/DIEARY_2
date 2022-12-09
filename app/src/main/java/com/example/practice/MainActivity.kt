@@ -31,23 +31,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     val binding by lazy { ActivityMainBinding.inflate(layoutInflater)}
     private var auth : FirebaseAuth? = null
 
-    var now = LocalDate.now().toString()
-    var arr = now.split("-")
-    var date = String.format("%s/%s/%s", arr[0], arr[1], arr[2])
-    lateinit var fname: String
-    lateinit var str: String
-    lateinit var calendarView: CalendarView
-    lateinit var updateBtn: Button
-    lateinit var deleteBtn:Button
-    lateinit var saveBtn:Button
-    lateinit var diaryTextView: TextView
-    lateinit var diaryContent:TextView
-    lateinit var title:TextView
-    lateinit var contextEditText: EditText
-    lateinit var goBtn: Button  // add
+//    var now = LocalDate.now().toString()
+//    var arr = now.split("-")
+//    var date = String.format("%s/%s/%s", arr[0], arr[1], arr[2])
 
-    lateinit var viewBtn: Button
-    lateinit var locBtn: Button
+
     lateinit var navigationView: NavigationView
     lateinit var drawerLayout: DrawerLayout
     companion object {
@@ -59,6 +47,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     val SUBACTIVITY_REQUEST_CODE = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        var date = LocalDate.now().toString()
         Log.d("ITM",date)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -66,31 +55,33 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         userId = auth?.currentUser?.uid.toString()
 
-        Log.d("ITM", "UID : ${MainActivity.userId} logged in.")
+        Log.d("ITM", "UID : ${userId} logged in.")
+        Log.d("ITM", "Date is : $date")
         //드로어
-        val toolbar : Toolbar = findViewById(R.id.toolbar)
-//        setSupportActionBar(toolbar)
-//
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-//        supportActionBar?.setHomeAsUpIndicator(R.drawable.navi_menu)
-//        supportActionBar?.setDisplayShowTitleEnabled(false)
-
         drawerLayout = binding.drawerLayout
         navigationView = binding.navView
         navigationView.setNavigationItemSelectedListener(this)
 
         binding.title.text = "If I Dieary"
 
+
         binding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            Log.d("ITM","calendar in: $view, $year, $month, $dayOfMonth")
-            date = String.format("%d/%d/%d", year, month + 1, dayOfMonth)
-            Log.d("ITM","calendar in: date= $date")
+            var day = ""
+            if (dayOfMonth.toString().length == 1) {
+                day = "0" + dayOfMonth.toString()
+                Log.d("ITM", day)
+            } else {
+                day = dayOfMonth.toString()
+            }
+            date = String.format("%d-%d-%s", year, month + 1, day)
+            Log.d("ITM", "Selected date is : $date")
         }
 
         binding.goBtn.setOnClickListener {
             Log.d("ITM","gobtn in")
             val intent = Intent(this, FeelingActivity2::class.java)
             intent.putExtra("date", date)
+            Log.d("ITM", "Passed date is : $date")
             startActivity(intent)
         }
 

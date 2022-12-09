@@ -27,7 +27,7 @@ class FeelingActivity : AppCompatActivity() {
         val myList =listOf("happy", "angry", "sad", "shocked", "shy", "sleepy")
 
         val date = intent.getStringExtra("date")
-
+        Log.d("ITM", "Date is : $date")
 
         val myAdapter = ArrayAdapter<String>(this, R.layout.simple_list_item_1, myList)
         binding.spinner.adapter = myAdapter

@@ -1,172 +1,86 @@
 package com.example.practice
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.CalendarView
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.practice.databinding.ActivitySub2Binding
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import com.example.practice.databinding.ActivitySub2Binding
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
 class SubActivity2 : AppCompatActivity() {
-
-    var userID: String = "userID"
-    lateinit var fname: String
-    lateinit var str: String
-    lateinit var updateBtn: Button
-    lateinit var deleteBtn: Button
+    val binding by lazy { ActivitySub2Binding.inflate(layoutInflater)}
+    lateinit var date : String
     lateinit var saveBtn: Button
     lateinit var diaryTextView: TextView
-    lateinit var diaryContent: TextView
-    lateinit var contextEditText: EditText
-    lateinit var feelingimage : ImageView
+    lateinit var diaryEditText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val binding by lazy { ActivitySub2Binding.inflate(layoutInflater)}
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sub2)
+        setContentView(binding.root)
+
         Log.d("ITM","Sub2 in")
 
         // UI값 생성
-        diaryTextView=findViewById(R.id.diaryTextView)
-        saveBtn=findViewById(R.id.saveBtn)
-        deleteBtn=findViewById(R.id.deleteBtn)
-        updateBtn=findViewById(R.id.updateBtn)
-        diaryContent=findViewById(R.id.diaryContent)
-        //title=findViewById(R.id.title)
-        contextEditText=findViewById(R.id.contextEditText)
-        feelingimage=findViewById(R.id.feelingImage)
+//        diaryTextView=findViewById(R.id.diaryTextView)
+        diaryTextView = binding.diaryTextView
+        saveBtn=binding.saveBtn
+        diaryEditText = binding.diaryEditText
 
         diaryTextView.visibility = View.VISIBLE // 2022/11/23
         saveBtn.visibility = View.VISIBLE
-        contextEditText.visibility = View.VISIBLE
-        diaryContent.visibility = View.INVISIBLE
-        updateBtn.visibility = View.INVISIBLE
-        deleteBtn.visibility = View.INVISIBLE
+        diaryEditText.visibility = View.VISIBLE
 
-        diaryTextView.text = intent.getStringExtra("date")
-        Log.d("ITM", "${intent.getStringExtra("date")}")
-        var arr = diaryTextView.text.split(" / ")
-        var year = arr[0].toInt()
-        var month = arr[1].toInt()
-        var dayOfMonth = arr[2].toInt()
-        checkDay(year, month, dayOfMonth, userID)
+        if (intent.getStringExtra("date") != null) {
+            date = intent.getStringExtra("date")!!
+        }
+        Log.d("ITM","1")
+        Log.d("ITM", "Date is $date")
 
-        var key = arr[0]+arr[1]+arr[2]
-        Log.d("ITM", key)
+        val db = Firebase.firestore
+        Log.d("ITM","2")
+        //리사이클러뷰에 띄울 리스트 생성
+        diaryTextView.text = date
+        Log.d("ITM","3")
+        Log.d("ITM", "Date is $date")
 
 
-        //feeling image 받아오기
-//        var imgSource = intent.getStringExtra("image")?.toInt()
-//        if (imgSource != null) {
-//            feelingimage.setImageResource(imgSource)
-//        }
-
+        //db에 일기 넣기
         saveBtn.setOnClickListener {
-            saveDiary(fname)
-            contextEditText.visibility = View.INVISIBLE
-            saveBtn.visibility = View.INVISIBLE
-            //updateBtn.visibility = View.VISIBLE
-            //deleteBtn.visibility = View.VISIBLE
-            str = contextEditText.text.toString()
-            diaryContent.text = str
-            diaryContent.visibility = View.VISIBLE
-            //main에서 컨텐츠 볼 수 있게 하기
-            val returnIntent = Intent(this, ViewActivity::class.java)
-            returnIntent.putExtra("textDiary", str)
-            returnIntent.putExtra("feelingImgSrc",intent.getStringExtra("image"))
-            startActivity(returnIntent)
-            finish()
-        }
-
-    }
-
-    // 달력 내용 조회, 수정
-    fun checkDay(cYear: Int, cMonth: Int, cDay: Int, userID: String) {
-        //저장할 파일 이름설정
-        fname = "" + userID + cYear + "-" + (cMonth + 1) + "" + "-" + cDay + ".txt"
-
-        var fileInputStream: FileInputStream
-        try {
-            fileInputStream = openFileInput(fname)
-            val fileData = ByteArray(fileInputStream.available())
-            fileInputStream.read(fileData)
-            fileInputStream.close()
-            str = String(fileData)
-            contextEditText.visibility = View.INVISIBLE
-            diaryContent.visibility = View.VISIBLE
-            diaryContent.text = str
-            saveBtn.visibility = View.INVISIBLE
-            updateBtn.visibility = View.VISIBLE
-            deleteBtn.visibility = View.VISIBLE
-            updateBtn.setOnClickListener {
-                contextEditText.visibility = View.VISIBLE
-                diaryContent.visibility = View.INVISIBLE
-                contextEditText.setText(str)
-                saveBtn.visibility = View.VISIBLE
-                updateBtn.visibility = View.INVISIBLE
-                deleteBtn.visibility = View.INVISIBLE
-                diaryContent.text = contextEditText.text
+            var addedDiary = TxtDiaryInfo()
+            addedDiary.diaryContents = binding.diaryEditText.text.toString()
+            addedDiary.diaryImgSrc = 0
+            var diaryId = ""
+            for (i in 0..9) {
+                val randomChar = ('a'..'z').random()
+                diaryId += randomChar
             }
-            deleteBtn.setOnClickListener {
-                diaryContent.visibility = View.INVISIBLE
-                updateBtn.visibility = View.INVISIBLE
-                deleteBtn.visibility = View.INVISIBLE
-                contextEditText.setText("")
-                contextEditText.visibility = View.VISIBLE
-                saveBtn.visibility = View.VISIBLE
-                removeDiary(fname)
-            }
-            if (diaryContent.text == null) {
-                diaryContent.visibility = View.INVISIBLE
-                updateBtn.visibility = View.INVISIBLE
-                deleteBtn.visibility = View.INVISIBLE
-                diaryTextView.visibility = View.VISIBLE
-                saveBtn.visibility = View.VISIBLE
-                contextEditText.visibility = View.VISIBLE
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
+            Log.d("ITM", "This post's id is $diaryId.")
 
-    // 달력 내용 제거
-    @SuppressLint("WrongConstant")
-    fun removeDiary(readDay: String?) {
-        var fileOutputStream: FileOutputStream
-        try {
-            fileOutputStream = openFileOutput(readDay, MODE_NO_LOCALIZED_COLLATORS)
-            val content = ""
-            fileOutputStream.write(content.toByteArray())
-            fileOutputStream.close()
-        } catch (e: java.lang.Exception) {
-            e.printStackTrace()
+            db.collection("locations").document(MainActivity.userId).collection("infos").document("${diaryId}")
+                .set(addedDiary)
+                .addOnSuccessListener {
+                    Log.d("ITM", "DocumentSnapshot successfully written!")
+//                    val intent = Intent(this, LocationActivity::class.java)
+//                    startActivity(intent)
+                    finish()
+                }
+                .addOnFailureListener {
+                        e -> Log.w("ITM", "Error writing document", e)
+                    val intent = Intent(this, LocationActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
         }
-    }
-
-
-    // 달력 내용 추가
-    @SuppressLint("WrongConstant")
-    fun saveDiary(readDay: String?) {
-        var fileOutputStream: FileOutputStream
-        try {
-            fileOutputStream = openFileOutput(readDay, MODE_NO_LOCALIZED_COLLATORS)
-            val content = contextEditText.text.toString()
-            fileOutputStream.write(content.toByteArray())
-            fileOutputStream.close()
-        } catch (e: java.lang.Exception) {
-            e.printStackTrace()
-        }
+        Log.d("ITM","4")
     }
 
 
