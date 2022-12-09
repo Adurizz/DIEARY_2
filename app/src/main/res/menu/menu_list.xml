@@ -5,7 +5,7 @@
         android:title="HOME" />
     <item
         android:id="@+id/menu_contents"
-        android:title="CONTENTS" />
+        android:title="BOOKS" />
     <item
         android:id="@+id/menu_locations"
         android:title="LOCATIONS" />

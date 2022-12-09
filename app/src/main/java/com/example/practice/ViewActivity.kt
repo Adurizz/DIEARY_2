@@ -68,7 +68,11 @@ class ViewActivity : AppCompatActivity() {
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     Log.d("ITM", "${document.data.get("diaryContents").toString()}, ${document.data.get("diaryImgSrc").toString()}, ${document.data.get("diaryDate").toString()}")
-                    txtDiaries.add(TxtDiaryInfo(document.data.get("diaryContents").toString(), 0, document.data.get("diaryDate").toString()))
+                    if (document.data.get("diaryImgSrc") == null) {
+                        txtDiaries.add(TxtDiaryInfo(document.data.get("diaryContents").toString(), null, document.data.get("diaryDate").toString()))
+                    } else {
+                        txtDiaries.add(TxtDiaryInfo(document.data.get("diaryContents").toString(), document.data.get("diaryImgSrc").toString(), document.data.get("diaryDate").toString()))
+                    }
                 }
                 txtAdapter.notifyDataSetChanged()
                 Log.d("ITM", "data Set")
