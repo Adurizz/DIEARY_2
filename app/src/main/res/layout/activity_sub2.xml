@@ -20,33 +20,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/diaryContent"
+    <EditText
+        android:id="@+id/diaryEditText"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/contextEditText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/contextEditText"
-        app:layout_constraintTop_toTopOf="@+id/contextEditText"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <EditText
-        android:id="@+id/contextEditText"
-        android:layout_width="0dp"
-        android:layout_height="116dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="10dp"
         android:ems="10"
-        android:hint="내용을 입력하세요."
+        android:hint="Record your day!"
         android:inputType="textMultiLine"
-        android:visibility="invisible"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/saveBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/diaryTextView" />
 
@@ -55,46 +42,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="500dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="8dp"
-        android:text="저장"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contextEditText" />
-
-    <Button
-        android:id="@+id/deleteBtn"
-        android:layout_width="176dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="삭제"
-        android:visibility="invisible"
-        app:layout_constraintBaseline_toBaselineOf="@+id/updateBtn"
-        app:layout_constraintEnd_toEndOf="@+id/saveBtn"></Button>
-
-    <Button
-        android:id="@+id/updateBtn"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="수정"
-        android:visibility="invisible"
-        app:layout_constraintBaseline_toBaselineOf="@+id/saveBtn"
-        app:layout_constraintEnd_toStartOf="@+id/deleteBtn"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/feelingImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="10dp"
+        android:text="Save"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toBottomOf="@+id/diaryEditText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
