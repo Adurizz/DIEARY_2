@@ -62,8 +62,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView = binding.navView
         navigationView.setNavigationItemSelectedListener(this)
 
-        binding.title.text = "If I Dieary"
-
 
         binding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             var day = ""
