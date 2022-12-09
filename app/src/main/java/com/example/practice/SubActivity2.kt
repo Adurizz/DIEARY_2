@@ -13,8 +13,10 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import com.bumptech.glide.Glide
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.time.LocalDate
 
 class SubActivity2 : AppCompatActivity() {
     val binding by lazy { ActivitySub2Binding.inflate(layoutInflater)}
@@ -22,6 +24,18 @@ class SubActivity2 : AppCompatActivity() {
     lateinit var saveBtn: Button
     lateinit var diaryTextView: TextView
     lateinit var diaryEditText: EditText
+
+    //upload photo
+    private var activityResult: ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()) {
+        if(it.resultCode== RESULT_OK&&it.data != null) {
+            val uri = it.data!!.data
+
+            Glide.with(this)
+                .load(uri)
+                .into(binding.photoImage)
+        }
+    }//upload photo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,10 +61,18 @@ class SubActivity2 : AppCompatActivity() {
 
         val db = Firebase.firestore
         Log.d("ITM","2")
+
         //리사이클러뷰에 띄울 리스트 생성
         diaryTextView.text = date
         Log.d("ITM","3")
         Log.d("ITM", "Date is $date")
+
+        binding.galleryBtn.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type="image/*"
+            activityResult.launch(intent)
+        }
+
 
 
         //db에 일기 넣기
@@ -58,6 +80,7 @@ class SubActivity2 : AppCompatActivity() {
             var addedDiary = TxtDiaryInfo()
             addedDiary.diaryContents = binding.diaryEditText.text.toString()
             addedDiary.diaryImgSrc = 0
+            addedDiary.diaryDate = LocalDate.now().toString()
             var diaryId = ""
             for (i in 0..9) {
                 val randomChar = ('a'..'z').random()
@@ -65,10 +88,10 @@ class SubActivity2 : AppCompatActivity() {
             }
             Log.d("ITM", "This post's id is $diaryId.")
 
-            db.collection("locations").document(MainActivity.userId).collection("infos").document("${diaryId}")
+            db.collection("textDiarys").document(MainActivity.userId).collection("infos").document("${diaryId}")
                 .set(addedDiary)
                 .addOnSuccessListener {
-                    Log.d("ITM", "DocumentSnapshot successfully written!")
+                    Log.d("ITM", "Text diary successfully written!")
 //                    val intent = Intent(this, LocationActivity::class.java)
 //                    startActivity(intent)
                     finish()

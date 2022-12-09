@@ -46,10 +46,10 @@ class MapActivity : AppCompatActivity(), MapsFragment.OnLocationPassListener {
                 addedLoc.lng = binding.longtitudeText.text.toString()
                 var postId = binding.mapTitle.text.toString() + binding.mapDate.text.toString()
 
-                db.collection("locations").document(MainActivity.userId).collection("infos").document("${postId}")
+                db.collection("locations").document(MainActivity.userId).collection("infos").document("$postId")
                     .set(addedLoc)
                     .addOnSuccessListener {
-                        Log.d("ITM", "DocumentSnapshot successfully written!")
+                        Log.d("ITM", "Location info successfully written!")
                         val intent = Intent(this, LocationActivity::class.java)
                         startActivity(intent)
                         finish()
