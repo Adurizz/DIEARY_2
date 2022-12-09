@@ -4,6 +4,7 @@ import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.practice.databinding.LocViewBinding
 
@@ -29,12 +30,17 @@ class LocAdapter(val locations : MutableList<LocInfo>): RecyclerView.Adapter<Loc
             binding.comment.text = locInfos.comments
 
             itemView.setOnClickListener {
-                Intent(LocationActivity.getInstance(), SavedLocViewActivity::class.java).apply {
-                    putExtra("lat", locInfos.lat)
-                    putExtra("lng", locInfos.lng)
-                    putExtra("name", locInfos.locName)
-                    Log.d("ITM", "Extras : ${locInfos.lat}, ${locInfos.lng}")
-                }.run { LocationActivity.getInstance()?.startActivity(this) }
+                try {
+                    Intent(LocationActivity.getInstance(), SavedLocViewActivity::class.java).apply {
+                        putExtra("lat", locInfos.lat)
+                        putExtra("lng", locInfos.lng)
+                        putExtra("name", locInfos.locName)
+                        Log.d("ITM", "Extras : ${locInfos.lat}, ${locInfos.lng}")
+                    }.run { LocationActivity.getInstance()?.startActivity(this) }
+                }
+                catch (e: java.lang.NullPointerException) {
+                    Toast.makeText(MainActivity.getInstance(),"To see the location on Google Maps, plz move to locations page!", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
