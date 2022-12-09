@@ -23,6 +23,6 @@ class StartActivity : AppCompatActivity() {
 
             // 이전 키를 눌렀을 때 스플래스 화면으로 이동을 방지하기 위해 이동한 다음 사용안함으로 finish 처리
             finish()
-        }, 2500) // 시간 2초 이후 실행
+        }, 1500) // 시간 2초 이후 실행
     }
 }

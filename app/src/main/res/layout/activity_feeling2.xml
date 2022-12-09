@@ -13,6 +13,7 @@
         android:layout_height="119dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="160dp"
+        android:background="#00FFFFFF"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
