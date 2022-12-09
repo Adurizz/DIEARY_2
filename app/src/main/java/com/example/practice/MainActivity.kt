@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         binding.goBtn.setOnClickListener {
             Log.d("ITM","gobtn in")
-            val intent = Intent(this, FeelingActivity::class.java)
+            val intent = Intent(this, FeelingActivity2::class.java)
             intent.putExtra("date", date)
             startActivity(intent)
         }

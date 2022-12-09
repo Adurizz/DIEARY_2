@@ -16,6 +16,7 @@ import com.example.practice.databinding.ActivityMainBinding
 import kotlin.properties.Delegates
 
 class FeelingActivity : AppCompatActivity() {
+
     lateinit var image : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +24,7 @@ class FeelingActivity : AppCompatActivity() {
         val binding = ActivityFeelingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val myList =listOf("feeling1", "feeling2", "feeling3", "feeling4", "feeling5")
+        val myList =listOf("happy", "angry", "sad", "shocked", "shy", "sleepy")
 
         val date = intent.getStringExtra("date")
 
@@ -34,7 +35,7 @@ class FeelingActivity : AppCompatActivity() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 when (p2) {
                     0 -> {
-                        binding.imageView.setImageResource(R.drawable.btn_minus)
+                        binding.imageView.setImageResource(R.drawable.btn_star)
                         image = R.drawable.btn_minus.toString()
                     }
                     1 -> {
@@ -58,7 +59,7 @@ class FeelingActivity : AppCompatActivity() {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
 
-        binding.goBtn2.setOnClickListener {
+        binding.goBtn22.setOnClickListener {
             val intent = Intent(this, SubActivity2::class.java)
             intent.putExtra("date", date)
             Log.d("ITM", "$image is passed")

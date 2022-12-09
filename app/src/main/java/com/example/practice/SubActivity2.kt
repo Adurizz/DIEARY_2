@@ -12,6 +12,9 @@ import android.widget.CalendarView
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import com.example.practice.databinding.ActivitySub2Binding
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
@@ -29,6 +32,7 @@ class SubActivity2 : AppCompatActivity() {
     lateinit var feelingimage : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val binding by lazy { ActivitySub2Binding.inflate(layoutInflater)}
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sub2)
         Log.d("ITM","Sub2 in")
@@ -164,4 +168,7 @@ class SubActivity2 : AppCompatActivity() {
             e.printStackTrace()
         }
     }
+
+
 }
+
