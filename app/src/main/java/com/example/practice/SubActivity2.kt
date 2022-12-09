@@ -16,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.time.LocalDate
 
 class SubActivity2 : AppCompatActivity() {
     val binding by lazy { ActivitySub2Binding.inflate(layoutInflater)}
@@ -78,6 +79,7 @@ class SubActivity2 : AppCompatActivity() {
             var addedDiary = TxtDiaryInfo()
             addedDiary.diaryContents = binding.diaryEditText.text.toString()
             addedDiary.diaryImgSrc = 0
+            addedDiary.diaryDate = LocalDate.now().toString()
             var diaryId = ""
             for (i in 0..9) {
                 val randomChar = ('a'..'z').random()
@@ -85,7 +87,7 @@ class SubActivity2 : AppCompatActivity() {
             }
             Log.d("ITM", "This post's id is $diaryId.")
 
-            db.collection("locations").document(MainActivity.userId).collection("infos").document("${diaryId}")
+            db.collection("textDiarys").document(MainActivity.userId).collection("infos").document("${diaryId}")
                 .set(addedDiary)
                 .addOnSuccessListener {
                     Log.d("ITM", "DocumentSnapshot successfully written!")
