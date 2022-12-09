@@ -67,10 +67,10 @@ class SubActivity2 : AppCompatActivity() {
 
 
         //feeling image 받아오기
-        var imgSource = intent.getStringExtra("image")?.toInt()
-        if (imgSource != null) {
-            feelingimage.setImageResource(imgSource)
-        }
+//        var imgSource = intent.getStringExtra("image")?.toInt()
+//        if (imgSource != null) {
+//            feelingimage.setImageResource(imgSource)
+//        }
 
         saveBtn.setOnClickListener {
             saveDiary(fname)
