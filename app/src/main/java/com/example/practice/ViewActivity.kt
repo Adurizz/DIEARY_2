@@ -34,6 +34,7 @@ class ViewActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val db = Firebase.firestore
+        val date = intent.getStringExtra("date")
 
         var txtDiaries = mutableListOf<TxtDiaryInfo>()
         txtDiaries.clear()
@@ -42,9 +43,27 @@ class ViewActivity : AppCompatActivity() {
         binding.txtDiaryView.adapter = txtAdapter
         binding.txtDiaryView.layoutManager = LinearLayoutManager(this)
 
+        var locations = mutableListOf<LocInfo>()
+        locations.clear()
+
+        val locAdapter = LocAdapter(locations)
+        binding.locationView.adapter = locAdapter
+        binding.locationView.layoutManager =LinearLayoutManager(this)
+
         //db에서 데이터 읽어와 리스트에 넣고 visualize
+        db.collection("emojis").document(MainActivity.userId).collection("infos")
+            .whereEqualTo("emojiDate", date)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    binding.feelView.setImageResource(document.data.get("emojiSrc").toString().toInt())
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("ITM", "Error getting documents: ", exception)
+            }
         db.collection("textDiarys").document(MainActivity.userId).collection("infos")
-            .whereEqualTo("diaryDate", LocalDate.now().toString())
+            .whereEqualTo("diaryDate", date)
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
@@ -53,6 +72,19 @@ class ViewActivity : AppCompatActivity() {
                 }
                 txtAdapter.notifyDataSetChanged()
                 Log.d("ITM", "data Set")
+            }
+            .addOnFailureListener { exception ->
+                Log.w("ITM", "Error getting documents: ", exception)
+            }
+        db.collection("locations").document(MainActivity.userId).collection("infos")
+            .whereEqualTo("userId", MainActivity.userId)
+            .whereEqualTo("date", date)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    locations.add(LocInfo(document.data.get("locName").toString(),document.data.get("date").toString(), document.data.get("comments").toString(),document.data.get("lat").toString(), document.data.get("lng").toString()))
+                }
+                locAdapter.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
                 Log.w("ITM", "Error getting documents: ", exception)

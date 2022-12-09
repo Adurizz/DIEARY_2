@@ -39,8 +39,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     lateinit var navigationView: NavigationView
     lateinit var drawerLayout: DrawerLayout
+    init {
+        instance = this
+    }
     companion object {
         lateinit var userId : String
+        private var instance:MainActivity?=null
+        fun getInstance():MainActivity? {
+            return instance
+        }
     }
 
 
@@ -87,6 +94,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.viewBtn.setOnClickListener {
             Log.d("ITM", "viewBtn in")
             val intent = Intent(this, ViewActivity::class.java)
+            intent.putExtra("date", date)
             startActivity(intent)
         }
 
