@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.time.LocalDate
 
 class MapActivity : AppCompatActivity(), MapsFragment.OnLocationPassListener {
     val binding by lazy { ActivityMapBinding.inflate(layoutInflater)}
@@ -27,23 +28,16 @@ class MapActivity : AppCompatActivity(), MapsFragment.OnLocationPassListener {
 
         val fManager = supportFragmentManager
         val transaction = fManager.beginTransaction()
+        binding.mapDate.text = LocalDate.now().toString()
 
         transaction.add(binding.mapFrame.id, mapFrangment)
         transaction.commit()
 
         binding.savBtn.setOnClickListener {
             if (binding.latitudeText.text == "") {
-                Toast.makeText(this,"please select location!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"please select location!", Toast.LENGTH_SHORT).show()
             }
             else {
-//                val intent = Intent(this, LocationActivity::class.java).apply {
-//                    putExtra("title", binding.mapTitle.text.toString())
-//                    putExtra("date", binding.mapDate.text.toString())
-//                    putExtra("content",binding.mapContent.text.toString())
-//                    putExtra("latitude",binding.latitudeText.text.toString())
-//                    putExtra("longitude", binding.longtitudeText.text.toString())
-//                }
-//                setResult(RESULT_OK,intent)
                 var addedLoc = LocInfo()
                 addedLoc.locName = binding.mapTitle.text.toString()
                 addedLoc.date = binding.mapDate.text.toString()
@@ -54,9 +48,19 @@ class MapActivity : AppCompatActivity(), MapsFragment.OnLocationPassListener {
 
                 db.collection("locations").document(MainActivity.userId).collection("infos").document("${postId}")
                     .set(addedLoc)
-                    .addOnSuccessListener { Log.d("ITM", "DocumentSnapshot successfully written!") }
-                    .addOnFailureListener { e -> Log.w("ITM", "Error writing document", e) }
-                finish()
+                    .addOnSuccessListener {
+                        Log.d("ITM", "DocumentSnapshot successfully written!")
+                        val intent = Intent(this, LocationActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                    .addOnFailureListener {
+                            e -> Log.w("ITM", "Error writing document", e)
+                        val intent = Intent(this, LocationActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+
             }
         }
     }

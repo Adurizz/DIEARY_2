@@ -8,12 +8,12 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.practice.databinding.ActivityLocationBinding
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class LocationActivity : AppCompatActivity() {
     val binding by lazy { ActivityLocationBinding.inflate(layoutInflater)}
-    lateinit var getResult : ActivityResultLauncher<Intent>
 
     init {
         instance = this
@@ -24,6 +24,7 @@ class LocationActivity : AppCompatActivity() {
         fun getInstance():LocationActivity? {
             return instance
         }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,30 +34,29 @@ class LocationActivity : AppCompatActivity() {
         val db = Firebase.firestore
 
         var locations = mutableListOf<LocInfo>()
+        locations.clear()
 
         val locAdapter = LocAdapter(locations)
         binding.locRecView.adapter = locAdapter
         binding.locRecView.layoutManager =LinearLayoutManager(this)
 
-//        getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-//            if (it.resultCode == RESULT_OK) {
-//                val title = it.data?.getStringExtra("title")
-//                val date = it.data?.getStringExtra("date")
-//                val cont = it.data?.getStringExtra("content")
-//                val lat = it.data?.getStringExtra("latitude")
-//                val long = it.data?.getStringExtra("longitude")
-//                if (title != null && date!= null && cont!=null && lat!=null && long!=null) {
-//                    Log.d("ITM", "$title, $date, $cont, $lat, $long")
-//                    locations.add(LocInfo(title,date, cont,lat.toString(), long.toString()))
-//                    locAdapter.notifyDataSetChanged()
-//                }
-//            }
-//        }
+        db.collection("locations").document(MainActivity.userId).collection("infos")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    //Log.d("ITM", "${document.id} => ${document.data.get("locName")}")
+                    locations.add(LocInfo(document.data.get("locName").toString(),document.data.get("date").toString(), document.data.get("comments").toString(),document.data.get("lat").toString(), document.data.get("lng").toString()))
+                }
+                locAdapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { exception ->
+                Log.w("ITM", "Error getting documents: ", exception)
+            }
 
         binding.mapBtn.setOnClickListener {
             val intent = Intent(this, MapActivity::class.java)
-//            getResult.launch(intent)
             startActivity(intent)
+            finish()
         }
     }
 }
