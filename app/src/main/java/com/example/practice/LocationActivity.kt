@@ -11,6 +11,7 @@ import com.example.practice.databinding.ActivityLocationBinding
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.time.LocalDate
 
 class LocationActivity : AppCompatActivity() {
     val binding by lazy { ActivityLocationBinding.inflate(layoutInflater)}
@@ -41,6 +42,7 @@ class LocationActivity : AppCompatActivity() {
         binding.locRecView.layoutManager =LinearLayoutManager(this)
 
         db.collection("locations").document(MainActivity.userId).collection("infos")
+            .whereEqualTo("userId", MainActivity.userId)
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {

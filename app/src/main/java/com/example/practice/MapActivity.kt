@@ -44,6 +44,7 @@ class MapActivity : AppCompatActivity(), MapsFragment.OnLocationPassListener {
                 addedLoc.comments = binding.mapContent.text.toString()
                 addedLoc.lat = binding.latitudeText.text.toString()
                 addedLoc.lng = binding.longtitudeText.text.toString()
+                addedLoc.userId = MainActivity.userId
                 var postId = binding.mapTitle.text.toString() + binding.mapDate.text.toString()
 
                 db.collection("locations").document(MainActivity.userId).collection("infos").document("$postId")

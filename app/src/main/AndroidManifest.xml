@@ -88,8 +88,8 @@
         </activity>
         <activity
             android:name=".ViewActivity"
-            android:exported="false"
-            android:theme="@style/Theme.Material3.Light.Dialog">
+            android:exported="false">
+<!--            android:theme="@style/Theme.Material3.Light.Dialog"-->
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

@@ -7,5 +7,6 @@ data class LocInfo(
     var date : String? = null,
     var comments : String? = null,
     var lat : String? = null,
-    var lng : String? = null
+    var lng : String? = null,
+    var userId : String? = null
 )

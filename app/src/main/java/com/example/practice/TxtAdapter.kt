@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.practice.databinding.LocViewBinding
 import com.example.practice.databinding.TxtdiaryViewBinding
 
@@ -26,7 +27,6 @@ class TxtAdapter(val txtDiary : MutableList<TxtDiaryInfo>): RecyclerView.Adapter
     class ViewHolder(val binding: TxtdiaryViewBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(txtDiaryInfo: TxtDiaryInfo) {
             binding.diaryTxt.text = txtDiaryInfo.diaryContents
-            txtDiaryInfo.diaryImgSrc?.let { binding.diaryImg.setImageResource(it) }
         }
     }
 }

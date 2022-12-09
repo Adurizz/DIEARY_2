@@ -2,20 +2,18 @@ package com.example.practice
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.practice.databinding.ActivitySub2Binding
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
-import java.io.FileInputStream
-import java.io.FileOutputStream
 import java.time.LocalDate
 
 class SubActivity2 : AppCompatActivity() {
@@ -24,12 +22,13 @@ class SubActivity2 : AppCompatActivity() {
     lateinit var saveBtn: Button
     lateinit var diaryTextView: TextView
     lateinit var diaryEditText: EditText
+    lateinit var uri : Uri
 
     //upload photo
     private var activityResult: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()) {
         if(it.resultCode== RESULT_OK&&it.data != null) {
-            val uri = it.data!!.data
+            uri = it.data!!.data!!
 
             Glide.with(this)
                 .load(uri)
