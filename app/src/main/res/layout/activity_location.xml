@@ -28,7 +28,7 @@
         android:layout_width="49dp"
         android:layout_height="46dp"
         android:background="@color/background"
-        android:gravity="top"
+        android:gravity="center_horizontal"
         android:includeFontPadding="false"
         android:letterSpacing="0"
         android:text="+"
