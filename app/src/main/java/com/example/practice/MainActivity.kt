@@ -119,10 +119,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }
-            R.id.menu_search-> {
-                //search activity 여기에 연결
-                Log.d("ITM", "search")
-            }
+
             R.id.menu_contents-> {
                 //content activity 여기에 연결
                 Log.d("ITM", "content")
