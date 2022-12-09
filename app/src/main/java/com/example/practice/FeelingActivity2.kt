@@ -8,7 +8,9 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.Spinner
 import com.example.practice.databinding.ActivityFeeling2Binding
-import com.example.practice.databinding.ActivityFeelingBinding
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import java.time.LocalDate
 
 class FeelingActivity2 : AppCompatActivity() {
 
@@ -18,6 +20,8 @@ class FeelingActivity2 : AppCompatActivity() {
         val binding = ActivityFeeling2Binding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        val db = Firebase.firestore
 
         val date = intent.getStringExtra("date")
 
@@ -54,21 +58,27 @@ class FeelingActivity2 : AppCompatActivity() {
                 when (p2) {
                     0 -> {
                         image = R.drawable.happy.toString()
+                        Log.d("ITM", image)
                     }
                     1 -> {
                         image = R.drawable.angry.toString()
+                        Log.d("ITM", image)
                     }
                     2 -> {
                         image = R.drawable.shy.toString()
+                        Log.d("ITM", image)
                     }
                     3 -> {
                         image = R.drawable.sad.toString()
+                        Log.d("ITM", image)
                     }
                     4 -> {
                         image = R.drawable.shocked.toString()
+                        Log.d("ITM", image)
                     }
                     5 -> {
                         image = R.drawable.sleepy.toString()
+                        Log.d("ITM", image)
                     }
                 }
             }
@@ -78,6 +88,21 @@ class FeelingActivity2 : AppCompatActivity() {
         binding.goBtn2.setOnClickListener {
             val intent = Intent(this, SubActivity2::class.java)
             intent.putExtra("date", date)
+            var imageSrc = emojiInfo()
+            imageSrc.emojiSrc = image.toInt()
+            Log.d("ITM", "${imageSrc.emojiSrc}")
+//            imageSrc.emojiDate = LocalDate.now().toString() : 오늘만 글쓰게 할 경우
+            imageSrc.emojiDate = date
+            db.collection("emojis").document(MainActivity.userId).collection("infos").document("${imageSrc.emojiDate}")
+                .set(imageSrc)
+                .addOnSuccessListener {
+                    Log.d("ITM", "Emoji successfully written!")
+                    finish()
+                }
+                .addOnFailureListener {
+                        e -> Log.w("ITM", "Error writing document", e)
+                    finish()
+                }
             startActivity(intent)
             finish()
         }

@@ -48,11 +48,11 @@ class SubActivity2 : AppCompatActivity() {
 
         val db = Firebase.firestore
         Log.d("ITM","2")
+
         //리사이클러뷰에 띄울 리스트 생성
         diaryTextView.text = date
         Log.d("ITM","3")
         Log.d("ITM", "Date is $date")
-
 
         //db에 일기 넣기
         saveBtn.setOnClickListener {
@@ -70,7 +70,7 @@ class SubActivity2 : AppCompatActivity() {
             db.collection("textDiarys").document(MainActivity.userId).collection("infos").document("${diaryId}")
                 .set(addedDiary)
                 .addOnSuccessListener {
-                    Log.d("ITM", "DocumentSnapshot successfully written!")
+                    Log.d("ITM", "Text diary successfully written!")
 //                    val intent = Intent(this, LocationActivity::class.java)
 //                    startActivity(intent)
                     finish()
