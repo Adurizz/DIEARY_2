@@ -10,15 +10,17 @@
     <FrameLayout
         android:id="@+id/mapFrame"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_height="360dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="40dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@+id/mapTitle"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
     </FrameLayout>
 
@@ -26,8 +28,11 @@
         android:id="@+id/savBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="50dp"
         android:text="SAVE"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -37,7 +42,7 @@
         android:id="@+id/mapTitle"
         android:layout_width="337dp"
         android:layout_height="50dp"
-        android:layout_marginTop="384dp"
+        android:layout_marginTop="400dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="Insert name of location"
@@ -62,13 +67,13 @@
     <EditText
         android:id="@+id/mapContent"
         android:layout_width="0dp"
-        android:layout_height="126dp"
-        android:layout_marginBottom="20dp"
+        android:layout_height="60dp"
         android:ems="10"
         android:hint="Insert comments"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toTopOf="@+id/locationText"
         app:layout_constraintEnd_toEndOf="@+id/mapTitle"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/mapTitle"
         app:layout_constraintTop_toBottomOf="@+id/mapDate" />
 
@@ -76,6 +81,7 @@
         android:id="@+id/locationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:text="Location :"
         app:layout_constraintBottom_toTopOf="@+id/savBtn"
         app:layout_constraintStart_toStartOf="@+id/mapContent"
@@ -87,7 +93,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/locationText"
         app:layout_constraintEnd_toStartOf="@+id/longtitudeText"
-        app:layout_constraintHorizontal_bias="0.319"
+        app:layout_constraintHorizontal_bias="0.343"
         app:layout_constraintStart_toEndOf="@+id/locationText"
         app:layout_constraintTop_toTopOf="@+id/locationText"
         app:layout_constraintVertical_bias="0.0" />
@@ -106,8 +112,7 @@
         android:id="@+id/dateText"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_marginTop="17dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="10dp"
         android:text="Date:"
         app:layout_constraintBottom_toTopOf="@+id/mapContent"
         app:layout_constraintEnd_toStartOf="@+id/mapDate"
