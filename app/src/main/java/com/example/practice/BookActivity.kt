@@ -94,7 +94,7 @@ class BookActivity : AppCompatActivity() {
 
     private fun initBookRecyclerView() {
         bookRecyclerViewAdapter = BookAdapter(itemClickedListener = {
-            val intent = Intent(this, DetailActivity::class.java)
+            var intent = Intent(this, DetailActivity::class.java)
 
             // 직렬화 해서 넘길 것.
             intent.putExtra("bookModel", it)
