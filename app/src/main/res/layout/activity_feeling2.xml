@@ -11,8 +11,9 @@
         android:id="@+id/feeling_spinner"
         android:layout_width="260dp"
         android:layout_height="119dp"
+        android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="62dp"
         android:background="#00FFFFFF"
         tools:ignore="SpeakableTextPresentCheck" />
 
