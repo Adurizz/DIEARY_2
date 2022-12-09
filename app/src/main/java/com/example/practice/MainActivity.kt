@@ -121,10 +121,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.menu_home-> {
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-            }
 
             R.id.menu_contents-> {
                 //content activity 여기에 연결
