@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".MapActivity">
 
     <FrameLayout
@@ -39,8 +40,8 @@
         android:layout_marginTop="384dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
-        android:inputType="text"
         android:hint="Insert name of location"
+        android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/mapDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
