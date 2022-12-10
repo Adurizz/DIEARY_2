@@ -50,6 +50,13 @@ class ViewActivity : AppCompatActivity() {
         binding.locationView.adapter = locAdapter
         binding.locationView.layoutManager =LinearLayoutManager(this)
 
+        var books = mutableListOf<BookInfo>()
+        books.clear()
+
+        val bookAdapter = BItemAdapter(books)
+        binding.bookView.adapter = bookAdapter
+        binding.bookView.layoutManager = LinearLayoutManager(this)
+
         //db에서 데이터 읽어와 리스트에 넣고 visualize
         db.collection("emojis").document(MainActivity.userId).collection("infos")
             .whereEqualTo("emojiDate", date)
@@ -80,6 +87,21 @@ class ViewActivity : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Log.w("ITM", "Error getting documents: ", exception)
             }
+
+        db.collection("books").document(MainActivity.userId).collection("infos")
+            .whereEqualTo("userId", MainActivity.userId)
+            .whereEqualTo("date", date)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    books.add(BookInfo(document.data.get("bookTitle").toString(),document.data.get("bookImgSrc").toString(), document.data.get("bookComment").toString(),document.data.get("date").toString(), document.data.get("userId").toString()))
+                }
+                bookAdapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { exception ->
+                Log.w("ITM", "Error getting documents: ", exception)
+            }
+
         db.collection("locations").document(MainActivity.userId).collection("infos")
             .whereEqualTo("userId", MainActivity.userId)
             .whereEqualTo("date", date)
