@@ -99,6 +99,7 @@ class BookActivity : AppCompatActivity() {
             // 직렬화 해서 넘길 것.
             intent.putExtra("bookModel", it)
             startActivity(intent)
+            finish()
         })
 
         binding.bookRecyclerView.layoutManager = LinearLayoutManager(this)

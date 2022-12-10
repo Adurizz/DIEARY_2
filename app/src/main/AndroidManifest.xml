@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -19,17 +19,29 @@
         android:theme="@style/Theme.Practice"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".BooklistActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".BookActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-
         </activity>
         <activity
             android:name=".FeelingActivity2"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".DetailActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -100,7 +112,8 @@
         <activity
             android:name=".ViewActivity"
             android:exported="false">
-<!--            android:theme="@style/Theme.Material3.Light.Dialog"-->
+
+            <!-- android:theme="@style/Theme.Material3.Light.Dialog" -->
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

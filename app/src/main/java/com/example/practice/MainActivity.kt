@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             R.id.menu_contents-> {
                 //content activity 여기에 연결
-                val intent = Intent(this, BookActivity::class.java)
+                val intent = Intent(this, BooklistActivity::class.java)
                 startActivity(intent)
                 Log.d("ITM", "content")
             }

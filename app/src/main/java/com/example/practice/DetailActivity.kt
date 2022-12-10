@@ -1,6 +1,8 @@
 package com.example.practice
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -8,12 +10,16 @@ import com.bumptech.glide.Glide
 import com.example.practice.databinding.ActivityDetailBinding
 import com.example.practice.model.Book
 import com.example.practice.model.Review
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import java.time.LocalDate
 
 class DetailActivity : AppCompatActivity() {
+    val db = Firebase.firestore
 
     private lateinit var binding: ActivityDetailBinding
 
-    private lateinit var db: AppDatabase
+//    private lateinit var db: AppDatabase
 
     private var model: Book? = null
 
@@ -22,7 +28,7 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        db = getAppDatabase(this)
+
 
         // data 넘겨줌줌
         model = intent.getParcelableExtra("bookModel")
@@ -34,17 +40,26 @@ class DetailActivity : AppCompatActivity() {
 
     private fun initSaveButton() {
         binding.saveButton.setOnClickListener {
-            Thread {
-                db.reviewDao().saveReview(
-                    Review(
-                        model?.id?.toInt() ?: 0,
-                        binding.reviewEditText.text.toString()
-                    )
-                )
-            }.start()
-            Toast
-                .makeText(this, "Saved !!", Toast.LENGTH_SHORT)
-                .show()
+            var addedBook = BookInfo()
+            addedBook.bookTitle = binding.titleTextView.text.toString()
+            addedBook.date = LocalDate.now().toString()
+            addedBook.bookImgSrc = model?.coverLargeUrl
+            addedBook.bookComment = binding.reviewEditText.text.toString()
+            addedBook.userId = MainActivity.userId
+            var bookId = binding.titleTextView.text.toString() + addedBook.date
+
+            db.collection("books").document(MainActivity.userId).collection("infos").document("$bookId")
+                .set(addedBook)
+                .addOnSuccessListener {
+                    Log.d("ITM", "Book info successfully written!")
+                    val intent = Intent(this, BooklistActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                .addOnFailureListener {
+                        e -> Log.w("ITM", "Error writing document", e)
+                    finish()
+                }
         }
     }
 
@@ -57,16 +72,5 @@ class DetailActivity : AppCompatActivity() {
         Glide.with(binding.coverImageView.context)
             .load(model?.coverLargeUrl.orEmpty())
             .into(binding.coverImageView)
-
-
-        // 저장된 리뷰 데이터 가져오기;
-        Thread {
-            val review = db.reviewDao().getOneReview(model?.id?.toInt() ?: 0)
-            review?.let {
-                runOnUiThread {
-                    binding.reviewEditText.setText(it.review)
-                }
-            }
-        }.start()
     }
 }
