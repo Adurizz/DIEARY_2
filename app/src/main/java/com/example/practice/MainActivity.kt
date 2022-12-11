@@ -38,10 +38,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     val binding by lazy { ActivityMainBinding.inflate(layoutInflater)}
     private var auth : FirebaseAuth? = null
     private lateinit var bookService: BookService
-//    var now = LocalDate.now().toString()
-//    var arr = now.split("-")
-//    var date = String.format("%s/%s/%s", arr[0], arr[1], arr[2])
-
 
     lateinit var navigationView: NavigationView
     lateinit var drawerLayout: DrawerLayout
@@ -92,7 +88,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.goBtn.setOnClickListener {
             Log.d("ITM","gobtn in")
             val intent = Intent(this, FeelingActivity2::class.java)
-            intent.putExtra("date", date)
             Log.d("ITM", "Passed date is : $date")
             startActivity(intent)
         }
@@ -100,6 +95,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.viewBtn.setOnClickListener {
             Log.d("ITM", "viewBtn in")
             val intent = Intent(this, ViewActivity::class.java)
+            //view는 오늘 날짜가 아닌 선택된 날짜로 진행되기 때문에 calender view에서 고른 날짜 전달
             intent.putExtra("date", date)
             startActivity(intent)
         }

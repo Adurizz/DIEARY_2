@@ -13,6 +13,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.example.practice.databinding.ActivitySavedLocViewBinding
 import com.google.android.gms.maps.model.CameraPosition
 
+// 저장된 게시글 선택하면 해당 위치 구글맵에 표기해주는 Activity..
 class SavedLocViewActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
@@ -40,11 +41,11 @@ class SavedLocViewActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivitySavedLocViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 게시글에서 위도 경도 받아옴
         lat = intent.getStringExtra("lat")
         lng = intent.getStringExtra("lng")
         name = intent.getStringExtra("name")
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -53,13 +54,15 @@ class SavedLocViewActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        Log.d("ITM", "${lat}, ${lng}")
+        //보여줄 장소 초기화
         var point = LatLng(0.0,0.0)
-        // Add a marker in Sydney and move the camera
+
+        // 받아온 위도 경도 할당
         if (lat != null && lng != null) {
             point = LatLng(lat!!.toDouble(), lng!!.toDouble())
         }
 
+        // 지도에 마커 표시
         mMap.addMarker(MarkerOptions().position(point).title(name))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(point))
         val cameraPosition = CameraPosition.Builder()

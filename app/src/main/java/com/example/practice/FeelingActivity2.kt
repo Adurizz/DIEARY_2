@@ -23,8 +23,6 @@ class FeelingActivity2 : AppCompatActivity() {
 
         val db = Firebase.firestore
 
-        val date = intent.getStringExtra("date")
-
         //스피너 객체 생성
         val spinnerFeeling: Spinner = findViewById(R.id.feeling_spinner)
 
@@ -87,12 +85,11 @@ class FeelingActivity2 : AppCompatActivity() {
 
         binding.goBtn2.setOnClickListener {
             val intent = Intent(this, SubActivity2::class.java)
-            intent.putExtra("date", date)
+
             var imageSrc = emojiInfo()
             imageSrc.emojiSrc = image.toInt()
-            Log.d("ITM", "${imageSrc.emojiSrc}")
-//            imageSrc.emojiDate = LocalDate.now().toString() : 오늘만 글쓰게 할 경우
-            imageSrc.emojiDate = date
+
+            imageSrc.emojiDate = LocalDate.now().toString()
             db.collection("emojis").document(MainActivity.userId).collection("infos").document("${imageSrc.emojiDate}")
                 .set(imageSrc)
                 .addOnSuccessListener {

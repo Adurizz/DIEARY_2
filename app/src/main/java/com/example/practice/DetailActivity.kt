@@ -19,8 +19,6 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
 
-//    private lateinit var db: AppDatabase
-
     private var model: Book? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +28,7 @@ class DetailActivity : AppCompatActivity() {
 
 
 
-        // data 넘겨줌줌
+        // BookActivity에서 보낸 선택된 책에 대한 데이터 받아오기
         model = intent.getParcelableExtra("bookModel")
 
         renderView()
@@ -38,8 +36,10 @@ class DetailActivity : AppCompatActivity() {
         initSaveButton()
     }
 
+    //저장버튼 세팅
     private fun initSaveButton() {
         binding.saveButton.setOnClickListener {
+            // 책 정보, 한줄평 저장하기 위해 Data Class 객채 생성
             var addedBook = BookInfo()
             addedBook.bookTitle = binding.titleTextView.text.toString()
             addedBook.date = LocalDate.now().toString()
@@ -48,7 +48,8 @@ class DetailActivity : AppCompatActivity() {
             addedBook.userId = MainActivity.userId
             var bookId = binding.titleTextView.text.toString() + addedBook.date
 
-            db.collection("books").document(MainActivity.userId).collection("infos").document("$bookId")
+            // 해당 객채 firebase에 저장장
+           db.collection("books").document(MainActivity.userId).collection("infos").document("$bookId")
                 .set(addedBook)
                 .addOnSuccessListener {
                     Log.d("ITM", "Book info successfully written!")
@@ -63,6 +64,7 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    // 유저가 고른 책의 정보 띄워주기
     private fun renderView() {
 
         binding.titleTextView.text = model?.title.orEmpty()

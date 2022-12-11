@@ -16,6 +16,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.time.LocalDate
 
+// 매일매일의 글 모아서 보는 Activity
 class ViewActivity : AppCompatActivity() {
     val binding by lazy { ActivityViewBinding.inflate(layoutInflater)}
 
@@ -34,6 +35,7 @@ class ViewActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val db = Firebase.firestore
+        // 어떤 날짜의 게시글에 접근하고자 하는지 확인 위해 데이터 받아옴
         val date = intent.getStringExtra("date")
 
         var txtDiaries = mutableListOf<TxtDiaryInfo>()

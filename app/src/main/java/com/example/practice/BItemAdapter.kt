@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.practice.databinding.BookViewBinding
 import java.util.*
 
+//북리스트 액티비티에서 나오는 리사이클러뷰 어댑터
 class BItemAdapter(val bookItems : MutableList<BookInfo>): RecyclerView.Adapter<BItemAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = BookViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)

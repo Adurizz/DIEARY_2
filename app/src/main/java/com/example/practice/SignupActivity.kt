@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
+//계정 생성 Activity
 class SignupActivity : AppCompatActivity() {
     val binding by lazy { ActivitySignupBinding.inflate(layoutInflater)}
     private var auth : FirebaseAuth? = null

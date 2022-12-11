@@ -41,6 +41,7 @@ class LocationActivity : AppCompatActivity() {
         binding.locRecView.adapter = locAdapter
         binding.locRecView.layoutManager =LinearLayoutManager(this)
 
+        //유저가 올린 게시글 가져옴
         db.collection("locations").document(MainActivity.userId).collection("infos")
             .whereEqualTo("userId", MainActivity.userId)
             .get()
@@ -55,6 +56,8 @@ class LocationActivity : AppCompatActivity() {
                 Log.w("ITM", "Error getting documents: ", exception)
             }
 
+        // 게시글 올리기 버튼
+        // 위치 고르는 액티비티 (MapActivity) 호출
         binding.mapBtn.setOnClickListener {
             val intent = Intent(this, MapActivity::class.java)
             startActivity(intent)

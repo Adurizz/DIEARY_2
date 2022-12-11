@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import com.example.practice.databinding.ActivityStartBinding
 
+// 시작 화면
 class StartActivity : AppCompatActivity() {
     val binding by lazy { ActivityStartBinding.inflate(layoutInflater)}
 

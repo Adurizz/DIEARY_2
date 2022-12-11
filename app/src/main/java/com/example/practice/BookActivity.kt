@@ -23,17 +23,12 @@ import com.example.practice.model.BestSellerDto
 import com.example.practice.model.History
 import com.example.practice.model.SearchBookDto
 
-
+//외부(인터파크) 도서검색 API 액티비티
 class BookActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBookBinding
     private lateinit var bookRecyclerViewAdapter: BookAdapter
     private lateinit var bookService: BookService
-    private lateinit var historyAdapter: HistoryAdapter
-
-    private val db: AppDatabase by lazy {
-        getAppDatabase(this)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +36,6 @@ class BookActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initBookRecyclerView()
-        initHistoryRecyclerView()
         initSearchEditText()
 
         initBookService()
@@ -49,21 +43,23 @@ class BookActivity : AppCompatActivity() {
     }
 
     private fun bookServiceLoadBestSellers() {
-        // 베스트 셀러 가져오기;
+        // 베스트 셀러 리스트 가져오기
+        // 처음에 보여지는 리스트는 베스트 셀러 리스트.. 검색 하면 검색결과에 해당하는 리스트 리턴
+        // 검색 결과는 베스트 셀러에서만 검색하는게 아니라 전체 도서 리스트에서 검색해서 결과 반환
         bookService.getBestSellerBooks("0E612B1807DB01FD0959C8FF5E9AEA75D6C7B4BD394F2B8FD45D9EB9813D3A38")
             .enqueue(object : Callback<BestSellerDto> {
-                // 응답이 온 경우;
+                // 응답이 온 경우
                 override fun onResponse(
                     call: Call<BestSellerDto>,
                     response: Response<BestSellerDto>
                 ) {
-                    // 받은 응답이 성공한 응답일 때;
+                    // 받은 응답이 성공한 응답일 때
                     if (response.isSuccessful.not()) {
                         Log.e(M_TAG, "NOT!! SUCCESS")
                         return
                     }
 
-                    // 받은 응답의 바디가 채워져 있는 경우만 진행;
+                    // 받은 응답의 바디가 채워져 있는 경우만 진행
                     response.body()?.let {
                         Log.d(M_TAG, it.toString())
 
@@ -71,7 +67,7 @@ class BookActivity : AppCompatActivity() {
                             Log.d(M_TAG, book.toString())
                         }
 
-                        // 새 리스트로 갱신;
+                        // 새 리스트로 갱신
                         bookRecyclerViewAdapter.submitList(it.books)
                     }
                 }
@@ -93,7 +89,10 @@ class BookActivity : AppCompatActivity() {
     }
 
     private fun initBookRecyclerView() {
+        //검색 결과로 나온 도서 리스트에서 한 도서를 선택(클릭) 했을 경우 호출
+        //DetailActivity로 연결
         bookRecyclerViewAdapter = BookAdapter(itemClickedListener = {
+            //Detail Activity = 해당 도서에 한줄평 첨가해 db에 추가하는 activity
             var intent = Intent(this, DetailActivity::class.java)
 
             // 직렬화 해서 넘길 것.
@@ -106,20 +105,9 @@ class BookActivity : AppCompatActivity() {
         binding.bookRecyclerView.adapter = bookRecyclerViewAdapter
     }
 
-    private fun initHistoryRecyclerView() {
-        historyAdapter = HistoryAdapter(historyDeleteClickListener = {
-            deleteSearchKeyword(it)
-        }, this)
-
-        binding.historyRecyclerView.layoutManager = LinearLayoutManager(this)
-        binding.historyRecyclerView.adapter = historyAdapter
-
-        initSearchEditText()
-    }
-
 
     fun bookServiceSearchBook(keyword: String) {
-
+        //책 검색 관련. 검색 진행 범위는 베스트셀러 내에서가 아닌 전체 도서
         bookService.getBooksByName("0E612B1807DB01FD0959C8FF5E9AEA75D6C7B4BD394F2B8FD45D9EB9813D3A38", keyword)
             .enqueue(object : Callback<SearchBookDto> {
                 // 성공.
@@ -128,8 +116,6 @@ class BookActivity : AppCompatActivity() {
                     call: Call<SearchBookDto>,
                     response: Response<SearchBookDto>
                 ) {
-                    hideHistoryView()
-                    saveSearchKeyword(keyword)
 
                     if (response.isSuccessful.not()) {
                         return
@@ -140,38 +126,9 @@ class BookActivity : AppCompatActivity() {
 
                 // 실패.
                 override fun onFailure(call: Call<SearchBookDto>, t: Throwable) {
-                    hideHistoryView()
                     Log.e(M_TAG, t.toString())
                 }
             })
-    }
-
-    private fun saveSearchKeyword(keyword: String) {
-        Thread {
-            db.historyDao().insertHistory(History(null, keyword))
-        }.start()
-    }
-
-    private fun showHistoryView() {
-        Thread {
-            val keywords = db.historyDao().getAll().reversed()
-            runOnUiThread {
-                binding.historyRecyclerView.isVisible = true
-                historyAdapter.submitList(keywords.orEmpty())
-            }
-        }.start()
-
-    }
-
-    private fun hideHistoryView() {
-        binding.historyRecyclerView.isVisible = false
-    }
-
-    private fun deleteSearchKeyword(keyword: String) {
-        Thread {
-            db.historyDao().delete(keyword)
-            showHistoryView()
-        }.start()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -189,7 +146,6 @@ class BookActivity : AppCompatActivity() {
 
         binding.searchEditText.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
-                showHistoryView()
             }
             return@setOnTouchListener false
         }

@@ -16,13 +16,13 @@ import java.time.LocalDate
 
 class MapActivity : AppCompatActivity(), MapsFragment.OnLocationPassListener {
     val binding by lazy { ActivityMapBinding.inflate(layoutInflater)}
-    lateinit var auth : FirebaseAuth
     lateinit var db : FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        // Map 프래그먼트
         val mapFrangment = MapsFragment()
         db = FirebaseFirestore.getInstance()
 
@@ -34,9 +34,11 @@ class MapActivity : AppCompatActivity(), MapsFragment.OnLocationPassListener {
         transaction.commit()
 
         binding.savBtn.setOnClickListener {
+            // 위치 지정안할시
             if (binding.latitudeText.text == "") {
                 Toast.makeText(this,"please select location!", Toast.LENGTH_SHORT).show()
             }
+            //위치 지정 후 저장
             else {
                 var addedLoc = LocInfo()
                 addedLoc.locName = binding.mapTitle.text.toString()
@@ -66,6 +68,7 @@ class MapActivity : AppCompatActivity(), MapsFragment.OnLocationPassListener {
         }
     }
 
+    // 프래그먼트에서 선택된 위치 받아오기
     override fun onLocationPass(lat: String, lng: String) {
         binding.latitudeText.text = lat
         binding.longtitudeText.text = lng

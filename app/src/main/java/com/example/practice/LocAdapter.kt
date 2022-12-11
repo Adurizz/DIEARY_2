@@ -29,6 +29,7 @@ class LocAdapter(val locations : MutableList<LocInfo>): RecyclerView.Adapter<Loc
             binding.date.text = locInfos.date
             binding.comment.text = locInfos.comments
 
+            // location 게시글 선택시 해당 위치를 구글맵에서 띄워줌
             itemView.setOnClickListener {
                 try {
                     Intent(LocationActivity.getInstance(), SavedLocViewActivity::class.java).apply {
